@@ -51,6 +51,17 @@
                     ₹{{ employee.salary }}
                 </div>
 
+                {% if employee.photo %}
+                    <div class="mb-4 text-center">
+                        <strong class="d-block mb-2">Employee Photo:</strong>
+
+                        <img src="{{ employee.photo.url }}"
+                            alt="{{ employee.name }}"
+                            class="img-fluid rounded shadow"
+                            style="max-width: 150px; max-height: 150px; object-fit: cover;">
+                    </div>
+                {% endif %}
+
                 <div class="mb-3">
                     <strong>Created:</strong>
                     {{ employee.created_at|date:"d F Y" }}

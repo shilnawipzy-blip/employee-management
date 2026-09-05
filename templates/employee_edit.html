@@ -25,7 +25,7 @@
 
             <h2 class="text-center mb-4">Edit Employee</h2>
 
-            <form method="POST">
+            <form method="POST" enctype="multipart/form-data">
 
                 {% csrf_token %}
                 <div class="mb-3">
@@ -69,6 +69,15 @@
 
                     {% if form.salary.errors %}
                         {{ form.salary.errors }}
+                    {% endif %}
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Employee Photo</label>
+
+                    {{ form.photo }}
+
+                    {% if form.photo.errors %}
+                        {{ form.photo.errors }}
                     {% endif %}
                 </div>
 

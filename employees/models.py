@@ -16,6 +16,11 @@ class Employee(models.Model):
         max_digits=10,
         decimal_places=2
     )
+    photo = models.ImageField(
+        upload_to="employees/",
+        blank=True,
+        null=True
+    )
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

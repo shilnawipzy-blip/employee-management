@@ -12,7 +12,8 @@ class EmployeeForm(forms.ModelForm):
             'email',
             'phone',
             'designation',
-            'salary'
+            'salary',
+            'photo'
         ]
 
         widgets = {
