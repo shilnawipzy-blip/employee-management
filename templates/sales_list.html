@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Sales Dashboard</title>
+
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    >
+</head>
+
+<body class="bg-light">
+
+<div class="container py-5">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+            <h2 class="fw-bold mb-1">Sales Dashboard</h2>
+
+            {% if report_type %}
+                <p class="text-muted mb-0">
+                    {{ report_type }}
+                </p>
+            {% endif %}
+        </div>
+
+        <a
+            href="{% url 'sales_upload' %}"
+            class="btn btn-primary"
+        >
+            Upload File
+        </a>
+
+    </div>
+
+    <div class="row g-4">
+
+        <!-- Total Sales -->
+        <div class="col-md-6 col-lg">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-body">
+                    <p class="text-muted mb-2">
+                        Total Sales
+                    </p>
+
+                    <h3 class="fw-bold mb-0">
+                        ₹{{ total_sales|floatformat:2 }}
+                    </h3>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 col-lg">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-body">
+                    <p class="text-muted mb-2">
+                        Total Quantity
+                    </p>
+
+                    <h3 class="fw-bold mb-0">
+                        {{ total_quantity|floatformat:0 }}
+                    </h3>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 col-lg">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-body">
+                    <p class="text-muted mb-2">
+                        Total Invoices
+                    </p>
+
+                    <h3 class="fw-bold mb-0">
+                        {{ total_invoices }}
+                    </h3>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 col-lg">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-body">
+                    <p class="text-muted mb-2">
+                        Total Orders
+                    </p>
+
+                    <h3 class="fw-bold mb-0">
+                        {{ total_orders }}
+                    </h3>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 col-lg">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-body">
+                    <p class="text-muted mb-2">
+                        Total Items
+                    </p>
+
+                    <h3 class="fw-bold mb-0">
+                        {{ total_items }}
+                    </h3>
+                </div>
+            </div>
+        </div>
+    </div>
+{% if party_totals %}
+
+<div class="card border-0 shadow-sm mt-4">
+    <div class="card-body">
+
+        <h5 class="fw-bold mb-3">
+            Party / Customer Wise Sales
+        </h5>
+
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+
+                <thead class="table-light">
+                    <tr>
+                        <th>Party / Customer</th>
+                        <th class="text-end">Total Sales</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% for party, total in party_totals.items %}
+                    <tr>
+                        <td>{{ party }}</td>
+                        <td class="text-end fw-semibold">
+                            ₹{{ total|floatformat:2 }}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+
+            </table>
+        </div>
+
+    </div>
+</div>
+
+{% endif %}
+
+
+{% if ledger_totals %}
+
+<div class="card border-0 shadow-sm mt-4">
+    <div class="card-body">
+
+        <h5 class="fw-bold mb-3">
+            Account Wise Summary
+        </h5>
+
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+
+                <thead class="table-light">
+                    <tr>
+                        <th>Account</th>
+                        <th class="text-end">Debit</th>
+                        <th class="text-end">Credit</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% for account, values in ledger_totals.items %}
+                    <tr>
+                        <td>{{ account }}</td>
+
+                        <td class="text-end fw-semibold">
+                            ₹{{ values.debit|floatformat:2 }}
+                        </td>
+
+                        <td class="text-end fw-semibold">
+                            ₹{{ values.credit|floatformat:2 }}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+
+            </table>
+        </div>
+
+    </div>
+</div>
+
+{% elif report_type == "Garments Sales" %}
+
+<div class="card border-0 shadow-sm mt-4">
+    <div class="card-body">
+
+        <h5 class="fw-bold mb-3">
+            Item Wise Sales
+        </h5>
+
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+
+                <thead class="table-light">
+                    <tr>
+                        <th>Item</th>
+                        <th class="text-end">Total Sales</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% for item, total in item_totals.items %}
+                    <tr>
+                        <td>{{ item }}</td>
+
+                        <td class="text-end fw-semibold">
+                            ₹{{ total|floatformat:2 }}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+
+            </table>
+        </div>
+
+    </div>
+</div>
+
+{% else %}
+
+<div class="card border-0 shadow-sm mt-4">
+    <div class="card-body">
+
+        <h5 class="fw-bold mb-3">
+            Category / Transaction Type Wise Sales
+        </h5>
+
+        {% if category_totals %}
+
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+
+                <thead class="table-light">
+                    <tr>
+                        <th>Category / Transaction Type</th>
+                        <th class="text-end">Total Sales</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% for category, total in category_totals.items %}
+                    <tr>
+                        <td>{{ category }}</td>
+
+                        <td class="text-end fw-semibold">
+                            ₹{{ total|floatformat:2 }}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+
+            </table>
+        </div>
+
+        {% else %}
+
+        <p class="text-muted mb-0">
+            No category or transaction type data available.
+        </p>
+
+        {% endif %}
+
+    </div>
+</div>
+
+{% endif %}
+
+</div>
+</div>
+
+</body>
+</html>
