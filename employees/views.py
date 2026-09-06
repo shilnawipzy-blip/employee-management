@@ -149,8 +149,7 @@ def detect_face(request):
         )
 
         face_cascade = cv2.CascadeClassifier(
-            cv2.data.haarcascades +
-            'haarcascade_frontalface_default.xml'
+            'employees/cascade/haarcascade_frontalface_default.xml'
         )
 
         faces = face_cascade.detectMultiScale(
@@ -234,6 +233,11 @@ def detect_face(request):
         employee_id, confidence = recognizer.predict(
             detected_face
         )
+        
+        
+        print("Employee ID:", employee_id)
+        print("Confidence:", confidence)
+
 
         employee = Employee.objects.filter(
             id=employee_id
@@ -263,3 +267,6 @@ def detect_face(request):
         'employee_id': None,
         'employee_name': None
     })
+    
+def online_checkin(request):
+    return render(request, 'online_checkin.html')
