@@ -6,7 +6,6 @@ from .views import (employee_list,
                     employee_delete,
                     employee_checkin,
                     detect_face,
-                    online_checkin,
                     )
 
 urlpatterns = [
@@ -17,5 +16,4 @@ urlpatterns = [
     path('employees/<int:id>/delete/', employee_delete, name='employee_delete'),
     path('checkin/', employee_checkin, name='employee_checkin'),
     path('checkin/detect-face/', detect_face, name='detect_face'),
-    path('api/online-checkin/', online_checkin, name='online_checkin'),
 ]

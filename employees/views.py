@@ -5,6 +5,7 @@ from .forms import EmployeeForm
 import cv2
 import base64
 from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
 import numpy as np
 
 
@@ -118,6 +119,7 @@ def employee_checkin(request):
         'employee_checkin.html'
     )
     
+@csrf_exempt
 def detect_face(request):
 
     if request.method == 'POST':
@@ -157,6 +159,16 @@ def detect_face(request):
             scaleFactor=1.1,
             minNeighbors=5
         )
+        
+        print("Faces detected:", len(faces))
+
+        if len(faces) > 1:
+            return JsonResponse({
+                'face_detected': True,
+                'employee_id': None,
+                'employee_name': None,
+                'error': 'Multiple faces detected. Please ensure only one person is in front of the camera.'
+            })
 
         if len(faces) == 0:
             return JsonResponse({
@@ -268,5 +280,3 @@ def detect_face(request):
         'employee_name': None
     })
     
-def online_checkin(request):
-    return render(request, 'online_checkin.html')
